@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,31 +11,27 @@
 <body>
     <h1>Мой англо-русский словарь</h1>
 
-    <div class="inputs-block">
-        <div class="input-item">
-            <div class="input-item-title">
+    <form>
+        <div class="translation">
+            <label>
                 Слово
-            </div>
-            <input type="text" id="eng" class="input" placeholder="Eng">
-        </div>
-        <div class="input-item">
-            <div class="input-item-title">
+                <input type="text" class="input" id="origin" placeholder="Eng" required>
+            </label>
+            <label>
                 Перевод
-            </div>
-            <input type="text" id="rus" class="input" placeholder="Rus">
+                <input type="text" class="input" id="translation" placeholder="Rus" required>
+            </label>
+
+            <button class="btn" type="submit">Добавить слово</button>
         </div>
-        <div class="btn-wrapper">
-            <button id="add-word-btn">Добавить слово</button>
-        </div>
-    </div>
+    </form>
 
     <h2>Сохраненные слова:</h2>
 
     <div class="table-block">
-        <table id="table">
-
-        </table>
+        <table id="table"></table>
     </div>
+    <dl class="dictionary" id="dictionary"></dl>
 
     <script src="js/main.js"></script>
 </body>

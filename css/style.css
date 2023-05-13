@@ -1,140 +1,105 @@
+html {
+    font-family: "Montserrat", sans-serif;
+}
+
 body {
     background-color: #e5e5e5;
-    padding-left: 132px;
-    padding-top: 115px;
+    display: flex;
+    flex-direction: column;
+    margin: 60px 0 0;
+    padding: 0 20px;
 }
 
 h1 {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: bold;
+    margin: 0 0 70px;
     font-size: 38px;
-    color: #000;
-    margin: 0;
+}
+
+h2 {
+    margin: 0 0 20px;
+    font-size: 18px;
+}
+
+.translation {
+    display: flex;
+    align-items: flex-end;
+    column-gap: 40px;
     margin-bottom: 70px;
 }
 
-.inputs-block {
+.translation label {
     display: flex;
-    align-items: flex-end;
-    margin-bottom: 60px;
-}
-
-.input-item {
-    margin-right: 40px;
-    max-width: 255px;
-}
-
-.input-item-title {
-    margin-bottom: 30px;
-    font-family: 'Montserrat', sans-serif;
+    flex-direction: column;
+    row-gap: 30px;
     font-size: 18px;
     font-weight: bold;
     line-height: 22px;
-    color: #000;
 }
 
-.input {
-    background-color: #fff;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+.translation input {
+    padding: 18px;
+    max-width: 255px;
     border: none;
-    height: 56px;
     border-radius: 4px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 16px;
-    line-height: 20px;
-    color: rgba(0, 0, 0, 0.7);
-    padding-left: 18px;
-    width: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
-.input.error {
+.translation input.error {
     border: 1px solid #a90e0e;
 }
 
-.input.error::-webkit-input-placeholder {
+.translation input.error::-webkit-input-placeholder {
     color: #a90e0e;
 }
 
-#add-word-btn {
+.translation button {
+    padding: 18px;
     background-color: #13d8e2;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
-    border: none;
-    height: 56px;
-    border-radius: 4px;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: bold;
-    line-height: 20px;
-    color: rgba(0, 0, 0, 0.7);
-    width: 141px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     cursor: pointer;
     transition: all .2s ease-in-out;
 }
 
-#add-word-btn:hover {
+.translation button:hover {
     background-color: rgba(8, 161, 10, 0.447);
 }
 
-h2 {
-    margin: 0;
-    margin-bottom: 60px;
-    font-family: 'Montserrat', sans-serif;
-    font-style: normal;
+.dictionary {
+    display: grid;
+    grid-template-columns: min-content min-content;
+    row-gap: 20px;
+    font-size: 35px;
+    line-height: 42px;
+    letter-spacing: 0.03em;
+}
+
+.dictionary dt {
     font-weight: bold;
-    font-size: 18px;
-    line-height: 22px;
-    color: #000;
 }
 
-table {
-    width: 300px;
-}
-
-.tr {
+.dictionary dd {
     position: relative;
+    padding-right: 50px;
 }
 
-.btn-delete {
+.dictionary button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    background-color: transparent;
     background-image: url(../img/delete.svg);
+    background-size: 15px;
     background-repeat: no-repeat;
     background-position: center;
-    width: 12px;
-    height: 12px;
-    background-color: transparent;
     border: none;
+    border-radius: 4px;
     cursor: pointer;
+    transition: all .2s ease-in-out;
 }
 
-.btn-delete:hover {
-    background-color: #ff0000;
-}
-
-.eng-word {
-    font-family: 'Montserrat', sans-serif;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 35px;
-    line-height: 43px;
-    letter-spacing: 0.03em;
-    color: #000;
-    flex: none;
-    order: 0;
-    align-self: center;
-    margin: 40px 0;
-}
-
-.rus-word {
-    font-family: 'Montserrat', sans-serif;
-    font-style: normal;
-    font-weight: lighter;
-    font-size: 35px;
-    line-height: 43px;
-    letter-spacing: 0.03em;
-    color: #000;
-    flex: none;
-    order: 1;
-    align-self: center;
-    margin: 40px 0;
+.dictionary button:hover {
+    background-color: #a90e0e;
 }

@@ -1,37 +1,30 @@
-const engWord = document.getElementById('eng');
-const rusWord = document.getElementById('rus');
-const inputsNode = document.getElementsByClassName('input');
-const addBtn = document.getElementById('add-word-btn');
-const tableNode = document.getElementById('table');
+const dictionary = document.getElementById('dictionary');
 
-let words;
-let btnsDelete;
-
-localStorage.length < 1 ? words = [] : words = JSON.parse(localStorage.getItem('words'));
-
-function addWordToTable(index) {
-    tableNode.innerHTML += `
-        <tr class="tr">
-            <td class="eng-word">${words[index].english}</td>
-            <td class="rus-word">${words[index].russian}</td>
-            <td>
-                <button class="btn-delete"></button>
-            </td>
-        </tr>
-    `;
+function init() {
+    renderDictionary(getDictionary());
+    addEventListeners();
 }
 
-words.forEach((element, i) => {
-    addWordToTable(i);
-});
+function getCurrentId() {
+    return Number(localStorage.getItem('currentId')) ?? 0;
+}
 
-addBtn.addEventListener('click', () => {
-    if (
-        engWord.value.length < 1 ||
-        rusWord.value.length < 1 ||
-        !isNaN(engWord.value) ||
-        !isNaN(rusWord.value)
-    ) {
+function getDictionary() {
+    return localStorage.length < 1 ? [] : JSON.parse(localStorage.getItem('dictionary'));
+}
+
+function saveDictionary(dictionary) {
+    localStorage.setItem('currentId', String(getCurrentId() + 1));
+    localStorage.setItem('dictionary', JSON.stringify(dictionary));
+}
+
+function addTranslation(origin, translation) {
+    const inputsNode = document.getElementsByClassName('input');
+
+    const dictionary = getDictionary();
+    const currentId = getCurrentId();
+
+    if (!isNaN(origin) || !isNaN(translation)) {
         for (let key of inputsNode) {
             key.classList.add('error');
             key.placeholder = 'Некорректный ввод';
@@ -39,38 +32,68 @@ addBtn.addEventListener('click', () => {
     } else {
         for (let key of inputsNode) {
             key.classList.remove('error');
+            key.placeholder = '';
         }
-
-        words.push(new CreateWord(engWord.value, rusWord.value));
-        localStorage.setItem('words', JSON.stringify(words));
-        addWordToTable(words.length - 1);
-        engWord.value = null;
-        rusWord.value = null;
-    }
-});
-
-function CreateWord(english, russian) {
-    this.english = english;
-    this.russian = russian;
-}
-
-function deleteWord(e) {
-    const rowIndex = e.target.parentNode.parentNode.rowIndex;
-    e.target.parentNode.parentNode.parentNode.remove();
-    words.splice(rowIndex, 1);
-    localStorage.removeItem('words');
-    localStorage.setItem('words', JSON.stringify(words));
-}
-
-function addEventDelete() {
-    if (words.length > 0) {
-        btnsDelete = document.querySelectorAll('.btn-delete');
-        for (let btn of btnsDelete) {
-            btn.addEventListener('click', e => {
-                deleteWord(e);
-            });
-        }
+        dictionary.push({ id: currentId + 1, origin, translation });
+        saveDictionary(dictionary);
+        renderDictionary(dictionary);
     }
 }
 
-addEventDelete();
+function deleteTranslation(translationId) {
+    const dictionary = getDictionary().filter(({ id }) => id !== translationId);
+    saveDictionary(dictionary);
+}
+
+function removeTranslation(event) {
+    const target = event.target;
+
+    if (target.dataset.action !== 'delete-translation') {
+        return;
+    }
+
+    const definition = target.parentNode;
+    const translation = definition.previousElementSibling;
+    const translationId = Number(translation?.dataset.id);
+
+    if (isNaN(translationId)) {
+        return;
+    }
+
+    translation.remove();
+    definition.remove();
+    deleteTranslation(translationId);
+}
+
+function renderDictionary(dict) {
+    dictionary.innerHTML = '';
+
+    dict.forEach(({ id, origin, translation }) => {
+        dictionary.innerHTML += `
+            <dt data-id="${id}">${origin}</dt>
+            <dd>
+                ${translation}
+                
+                <button data-action="delete-translation"></button>
+            </dd>
+        `;
+    });
+}
+
+function addEventListeners() {
+    const newTranslationForm = document.forms[0];
+    const originInput = document.getElementById('origin');
+    const translationInput = document.getElementById('translation');
+
+    dictionary.addEventListener('click', removeTranslation);
+
+    newTranslationForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        addTranslation(originInput.value, translationInput.value);
+
+        newTranslationForm.reset();
+    });
+}
+
+init();
