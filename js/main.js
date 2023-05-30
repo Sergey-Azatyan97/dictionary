@@ -69,7 +69,7 @@ function removeTranslation(event) {
 
 function renderDictionary(dict) {
     dictionary.innerHTML = '';
-    if (dict === null) return;
+    
     dict.forEach(({ id, origin, translation }) => {
         dictionary.innerHTML += `
             <dt data-id="${id}">${origin}</dt>
