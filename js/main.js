@@ -10,7 +10,8 @@ function getCurrentId() {
 }
 
 function getDictionary() {
-    return localStorage.length < 1 ? [] : JSON.parse(localStorage.getItem('dictionary'));
+    const dictionary = localStorage.getItem('dictionary');
+    return dictionary ? JSON.parse(dictionary) : [];
 }
 
 function saveDictionary(dictionary) {
@@ -34,6 +35,7 @@ function addTranslation(origin, translation) {
             key.classList.remove('error');
             key.placeholder = '';
         }
+
         dictionary.push({ id: currentId + 1, origin, translation });
         saveDictionary(dictionary);
         renderDictionary(dictionary);
@@ -67,7 +69,7 @@ function removeTranslation(event) {
 
 function renderDictionary(dict) {
     dictionary.innerHTML = '';
-
+    if (dict === null) return;
     dict.forEach(({ id, origin, translation }) => {
         dictionary.innerHTML += `
             <dt data-id="${id}">${origin}</dt>
